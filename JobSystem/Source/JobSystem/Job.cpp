@@ -22,7 +22,7 @@ namespace JobSystem
 
 	bool Job::resume()
 	{
-		m_Fiber.resume();
+		return m_Fiber.resume();
 	}
 
 	void Job::setAssociatedJobSystem(class JobSystem* jobSystem)
