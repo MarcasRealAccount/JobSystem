@@ -6,6 +6,8 @@ if not libs.jobsystem then
 	}
 end
 
+require("../../ThirdParty/Fibers/Premake/Libs/Fibers")
+
 local jobsystem = libs.jobsystem
 
 function jobsystem:setup()
@@ -22,6 +24,8 @@ function jobsystem:setup()
 		self.location .. "/Source/"
 	})
 
+	libs.fibers:setupDep()
+
 	files({
 		self.location .. "/Include/**",
 		self.location .. "/Source/**"
@@ -32,4 +36,6 @@ end
 function jobsystem:setupDep()
 	links({ self.name })
 	sysincludedirs({ self.location .. "/include/" })
+
+	libs.fibers:setupDep()
 end
