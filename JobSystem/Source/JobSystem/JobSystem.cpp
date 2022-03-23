@@ -9,6 +9,8 @@ namespace JobSystem
 		m_Threads.resize(maxThreadCount - 1);
 		for (std::size_t thread = 0; thread < maxThreadCount - 1; ++thread)
 			m_Threads[thread] = std::thread(&JobSystem::threadFunc, this, thread + 1);
+		m_ScheduledJobs.resize(maxThreadCount);
+		m_ThreadsDone.resize(maxThreadCount);
 	}
 
 	JobSystem::JobSystem(JobSystem&& move) noexcept
@@ -66,8 +68,8 @@ namespace JobSystem
 			if (job.getThreadIndices().empty())
 			{
 				for (std::size_t thread = 0; thread < m_Threads.size(); ++thread)
-					if (m_ScheduledJobs[thread].size() < m_ScheduledJobs[bestThread].size())
-						bestThread = thread;
+					if (m_ScheduledJobs[thread + 1].size() < m_ScheduledJobs[bestThread].size())
+						bestThread = thread + 1;
 			}
 			else
 			{
